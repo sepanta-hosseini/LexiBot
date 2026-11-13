@@ -17,7 +17,16 @@ def test_settings_load_from_environment(monkeypatch):
 def test_settings_reject_missing_secrets(monkeypatch):
     monkeypatch.delenv("TELEGRAM_BOT_TOKEN", raising=False)
     monkeypatch.delenv("OPENAI_API_KEY", raising=False)
-    with pytest.raises(ValueError, match="TELEGRAM_BOT_TOKEN, OPENAI_API_KEY"):
+
+    monkeypatch.setattr(
+        "app.config.load_dotenv",
+        lambda **kwargs: None,
+    )
+
+    with pytest.raises(
+        ValueError,
+        match="TELEGRAM_BOT_TOKEN, OPENAI_API_KEY",
+    ):
         Settings.from_env()
 
 

@@ -16,7 +16,7 @@ class Settings:
 
     @classmethod
     def from_env(cls) -> "Settings":
-        load_dotenv()
+        load_dotenv(override=False)
 
         telegram_token = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
         openai_key = os.getenv("OPENAI_API_KEY", "").strip()
